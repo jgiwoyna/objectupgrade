@@ -1,40 +1,46 @@
-var atticus = ["Atticus", "2405", "47000", 3];
-var jem = ["Jem", "62347", "63500", 4];
-var boo = ["Boo", "11435", "54000", 3];
-var scout = ["Scout", "6243", "74750", 5];
-var robert = ["Robert", "26835", "66000", 1];
-var mayella = ["Mayella", "89068", "35000", 2];
+var atticus = new Person ("Atticus", "2405", "47000", 3);
+var jem = new Person ("Jem", "62347", "63500", 4);
+var boo = new Person ("Boo", "11435", "54000", 3);
+var scout = new Person ("Scout", "6243", "74750", 5);
+var robert = new Person ("Robert", "26835", "66000", 1);
+var mayella = new Person ("Mayella", "89068", "35000", 2);
+
+function Person(name, employeeNum, employeeSal, rating) {
+  this.name = name;
+  this.employeeNum = employeeNum;
+  this.employeeSal = employeeSal;
+  this.rating = rating;
+}
 
 var employees = [atticus, jem, boo, scout, robert, mayella];
 
-// ["employees name", "bonus percentage", "base annual + bonus", "total bonus to nearest dollar"]
 
-function bonusCalculation(arrEmployees){
-  var employeeBonus = [];
-  var bonus = 0;
-  employeeBonus[0] = arrEmployees[0];
-switch(arrEmployees[3]) {
-  case 1:
-    bonus = 0;
-    break;
-  case 2:
-    bonus = 0;
-    break;
-  case 3:
-    bonus = .04;
-    break;
-  case 4:
-    bonus = .06;
+ function bonusCalculation(employee){
+   var employeeBonus = {};
+   var bonus = 0;
+   employeeBonus.name = employee.name;
+ switch(employee.rating) {
+   case 1:
+     bonus = 0;
+     break;
+   case 2:
+     bonus = 0;
+     break;
+   case 3:
+     bonus = .04;
+     break;
+   case 4:
+     bonus = .06;
     break;
   case 5:
     bonus = .10;
     break;
   default: return false;
   }
-  if (arrEmployees[1].length == 4) {
+  if (employee.employeeNum.length == 4) {
     bonus += .05;
   }
-  if (arrEmployees[2] > 65000) {
+  if (employee.employeeSal > 65000) {
     bonus -= .01;
   }
   if (bonus > .13) {
@@ -44,11 +50,15 @@ switch(arrEmployees[3]) {
     bonus = 0;
   }
   var bonusPercent = bonus * 100;
-  employeeBonus[1] = bonusPercent;
-  employeeBonus[2] = arrEmployees[2] * (1 + bonus);
-  employeeBonus[3] = Math.round(arrEmployees[2] * bonus);
+  employeeBonus.bonusPercent = bonusPercent;
+  employeeBonus.totalCompensation = employee.employeeSal * (1 + bonus);
+  employeeBonus.bonus = Math.round(employee.employeeSal * bonus);
   return employeeBonus;
   }
+
+var newArray = [];
+
 for (var i = 0; i < employees.length; i++) {
-  console.log(bonusCalculation(employees[i]));
-}
+   newArray.push(bonusCalculation(employees[i]));
+ }
+ console.log(newArray);
